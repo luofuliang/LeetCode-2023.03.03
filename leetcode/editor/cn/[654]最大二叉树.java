@@ -19,6 +19,8 @@ class Solution {
     public TreeNode constructMaximumBinaryTree(int[] nums) {
         return bulidTree(nums, 0, nums.length-1);
     }
+
+    /* 定义：将 nums[start..end] 构造成符合条件的树，返回根节点 */
     public TreeNode bulidTree(int[] nums, int start, int end){
         // base case
         if (start > end) return null;

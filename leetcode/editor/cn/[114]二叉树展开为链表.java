@@ -30,10 +30,10 @@ class Solution {
         root.left = null;
         root.right = left;
         TreeNode p = root;
-        while (p.right != null){
+        while (p.right != null){    // 此处必须为p.right不能为p，否则会发生空指针异常。
             p = p.right;
         }
-        p.right = right;
+        p.right = right;    // 我们要的是p不为空，才能对p.right进行连接
     }
 }
 //leetcode submit region end(Prohibit modification and deletion)
