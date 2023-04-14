@@ -31,7 +31,7 @@ class Solution {
             while (p <= end && (long)nums[i] > (long)nums[p] * 2) {
                 p++;
             }
-            count += p - (mid + 1);
+            count += p - (mid + 1);     // 归并左侧的有序数组中的i，在右侧能形成的翻转对的个数。
         }
 
         int i=start, j=mid+1;

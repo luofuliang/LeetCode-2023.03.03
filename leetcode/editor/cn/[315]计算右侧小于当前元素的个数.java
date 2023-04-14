@@ -20,7 +20,7 @@ class Solution {
         temp = new Pair[n];
         count = new int[n];
         Pair[] arr = new Pair[n];
-        // // 记录元素原始的索引位置，以便在 count 数组中更新结果
+        // 记录元素原始的索引位置，以便在 count 数组中更新结果
         for (int i = 0; i < n; i++) {
             arr[i] = new Pair(nums[i],i);
         }
@@ -51,12 +51,12 @@ class Solution {
                 arr[k] = temp[j++];
             }else if (j == end+1){
                 arr[k] = temp[i++];
-                count[arr[k].index] += j-mid-1;     // 更新 count 数组
+                count[arr[k].index] += j-(mid+1);     // 更新 count 数组
             }else if (temp[i].val > temp[j].val){
                 arr[k] = temp[j++];
             }else {
                 arr[k] = temp[i++];
-                count[arr[k].index] += j-mid-1;
+                count[arr[k].index] += j-(mid+1);
             }
         }
     }
