@@ -1,6 +1,4 @@
-<p>给你一个整数数组 <code>coins</code> ，表示不同面额的硬币；以及一个整数 <code>amount</code> ，表示总金额。</p>
-
-<p>计算并返回可以凑成总金额所需的 <strong>最少的硬币个数</strong> 。如果没有任何一种硬币组合能组成总金额，返回&nbsp;<code>-1</code> 。</p>
+<p>给定不同面额的硬币 <code>coins</code> 和一个总金额 <code>amount</code>。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回&nbsp;<code>-1</code>。</p>
 
 <p>你可以认为每种硬币的数量是无限的。</p>
 
@@ -26,6 +24,20 @@
 <strong>输出：</strong>0
 </pre>
 
+<p><strong>示例 4：</strong></p>
+
+<pre>
+<strong>输入：</strong>coins = [1], amount = 1
+<strong>输出：</strong>1
+</pre>
+
+<p><strong>示例 5：</strong></p>
+
+<pre>
+<strong>输入：</strong>coins = [1], amount = 2
+<strong>输出：</strong>2
+</pre>
+
 <p>&nbsp;</p>
 
 <p><strong>提示：</strong></p>
@@ -36,9 +48,14 @@
  <li><code>0 &lt;= amount &lt;= 10<sup>4</sup></code></li> 
 </ul>
 
+<p>&nbsp;</p>
+
+<p>
+ <meta charset="UTF-8" />注意：本题与主站 322&nbsp;题相同：&nbsp;<a href="https://leetcode-cn.com/problems/coin-change/">https://leetcode-cn.com/problems/coin-change/</a></p>
+
 <details><summary><strong>Related Topics</strong></summary>广度优先搜索 | 数组 | 动态规划</details><br>
 
-<div>👍 2380, 👎 0<span style='float: right;'><span style='color: gray;'><a href='https://github.com/labuladong/fucking-algorithm/discussions/939' target='_blank' style='color: lightgray;text-decoration: underline;'>bug 反馈</a> | <a href='https://labuladong.gitee.io/article/fname.html?fname=jb插件简介' target='_blank' style='color: lightgray;text-decoration: underline;'>使用指南</a> | <a href='https://labuladong.github.io/algo/images/others/%E5%85%A8%E5%AE%B6%E6%A1%B6.jpg' target='_blank' style='color: lightgray;text-decoration: underline;'>更多配套插件</a></span></span></div>
+<div>👍 78, 👎 0<span style='float: right;'><span style='color: gray;'><a href='https://github.com/labuladong/fucking-algorithm/discussions/939' target='_blank' style='color: lightgray;text-decoration: underline;'>bug 反馈</a> | <a href='https://labuladong.gitee.io/article/fname.html?fname=jb插件简介' target='_blank' style='color: lightgray;text-decoration: underline;'>使用指南</a> | <a href='https://labuladong.github.io/algo/images/others/%E5%85%A8%E5%AE%B6%E6%A1%B6.jpg' target='_blank' style='color: lightgray;text-decoration: underline;'>更多配套插件</a></span></span></div>
 
 <div id="labuladong"><hr>
 
@@ -46,10 +63,12 @@
 
 
 
-<p><strong><a href="https://labuladong.github.io/article/slug.html?slug=coin-change" target="_blank">⭐️labuladong 题解</a></strong></p>
+<p><strong><a href="https://labuladong.github.io/article/slug.html?slug=gaM7Ch" target="_blank">⭐️labuladong 题解</a></strong></p>
 <details><summary><strong>labuladong 思路</strong></summary>
 
 ## 基本思路
+
+这道题和 [322. 零钱兑换](/problems/coin-change) 相同。
 
 > 本文有视频版：[动态规划框架套路详解](https://www.bilibili.com/video/BV1XV411Y7oE)
 
@@ -91,13 +110,12 @@ PS：这道题在[《算法小抄》](https://item.jd.com/12759911.html) 的第 
 // 本代码已经通过力扣的测试用例，应该可直接成功提交。
 
 class Solution {
+public:
     vector<int> memo;
 
-    public:
     int coinChange(vector<int>& coins, int amount) {
-        memo.resize(amount + 1);
+        memo.resize(amount + 1, -666);
         // dp 数组全都初始化为特殊值
-        fill(memo.begin(), memo.end(), -666);
         return dp(coins, amount);
     }
 
@@ -133,26 +151,23 @@ class Solution {
 # 本代码已经通过力扣的测试用例，应该可直接成功提交。
 
 class Solution:
-    def __init__(self):
-        self.memo = []
-
     def coinChange(self, coins: List[int], amount: int) -> int:
-        self.memo = [-666] * (amount + 1)
-        return self.dp(coins, amount)
+        memo = [-666] * (amount + 1)  # dp 数组全都初始化为特殊值
+        return self.dp(coins, amount, memo)
 
-    def dp(self, coins: List[int], amount: int) -> int:
+    def dp(self, coins: List[int], amount: int, memo: List[int]) -> int:
         if amount == 0:
             return 0
         if amount < 0:
             return -1
         # 查备忘录，防止重复计算
-        if self.memo[amount] != -666:
-            return self.memo[amount]
+        if memo[amount] != -666:
+            return memo[amount]
 
-        res = float("inf")
+        res = float('inf')
         for coin in coins:
             # 计算子问题的结果
-            sub_problem = self.dp(coins, amount - coin)
+            sub_problem = self.dp(coins, amount - coin, memo)
             # 子问题无解则跳过
             if sub_problem == -1:
                 continue
@@ -160,8 +175,8 @@ class Solution:
             res = min(res, sub_problem + 1)
 
         # 把计算结果存入备忘录
-        self.memo[amount] = -1 if res == float("inf") else res
-        return self.memo[amount]
+        memo[amount] = -1 if res == float('inf') else res
+        return memo[amount]
 ```
 
 </div></div>
@@ -212,7 +227,8 @@ class Solution {
 
 func coinChange(coins []int, amount int) int {
     memo := make([]int, amount+1)
-    for i := 0; i <= amount; i++ {
+    // dp 数组全都初始化为特殊值
+    for i := 0; i < len(memo); i++ {
         memo[i] = -666
     }
     return dp(coins, amount, memo)
@@ -233,7 +249,7 @@ func dp(coins []int, amount int, memo []int) int {
     res := math.MaxInt32
     for _, coin := range coins {
         // 计算子问题的结果
-        subProblem := dp(coins, amount-coin, memo)
+        subProblem := dp(coins, amount-coin, memo)/**<extend up -200>![](https://labuladong.github.io/pictures/动态规划详解进阶/5.jpg) */
         // 子问题无解则跳过
         if subProblem == -1 {
             continue
@@ -250,11 +266,11 @@ func dp(coins []int, amount int, memo []int) int {
     return memo[amount]
 }
 
-func min(a, b int) int {
-    if a < b {
-        return a
+func min(x, y int) int {
+    if x < y {
+        return x
     }
-    return b
+    return y
 }
 ```
 
@@ -277,17 +293,17 @@ var coinChange = function(coins, amount) {
         if (memo[amount] != -666)
             return memo[amount];
 
-        let res = Number.MAX_SAFE_INTEGER;
+        let res = Number.MAX_VALUE;
         for (let coin of coins) {
             // 计算子问题的结果
-            let subProblem = dp(coins, amount - coin);
+            let subProblem = dp(coins, amount - coin);/**<extend up -200>![](https://labuladong.github.io/pictures/动态规划详解进阶/5.jpg) */
             // 子问题无解则跳过
             if (subProblem == -1) continue;
             // 在子问题中选择最优解，然后加一
             res = Math.min(res, subProblem + 1);
         }
         // 把计算结果存入备忘录
-        memo[amount] = (res == Number.MAX_SAFE_INTEGER) ? -1 : res;
+        memo[amount] = (res == Number.MAX_VALUE) ? -1 : res;
         return memo[amount];
     }
 };
@@ -303,8 +319,6 @@ var coinChange = function(coins, amount) {
 
 </details>
 </div>
-
-
 
 
 

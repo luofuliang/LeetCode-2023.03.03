@@ -19,6 +19,7 @@ class Solution {
         }
         return res;
     }
+    // 定义dp：到达matrix[i][j]的下降路径最小和
     int dp(int[][] matrix, int i, int j) {
         // 1、⾮法索引检查
         if (i < 0 || j < 0 || i >= matrix.length || j >= matrix[0].length) {

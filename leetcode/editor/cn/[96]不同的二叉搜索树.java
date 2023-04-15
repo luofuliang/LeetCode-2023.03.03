@@ -12,7 +12,7 @@ class Solution {
     public int count(int low, int high){
         int res = 0;
         // base case
-        if (low  high)
+        if (low > high)     // null连在左右都一样，所以为1，有一个节点，都会返回2.
             return 1;
         if (memo[low][high] != 0){
             return memo[low][high];
